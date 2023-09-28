@@ -1,0 +1,460 @@
+@mixin mobile {
+	@media screen and (max-width: 540px) {
+		@content;
+	}
+}
+
+@mixin tablet {
+	@media screen and (max-width: 1080px) {
+		@content;
+	}
+}
+
+@mixin laptop {
+	@media screen and (max-width: 1200px) {
+		@content;
+	}
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+
+$coral-red: #f76c6c;
+$hover-col: #f76c6c5f;
+$pina-colada: #fbe9a1;
+$pina-colada-trans: #cdcdcd;
+$text-light: #f6f6f6;
+$text-dark: #6d6d6d;
+$bg-mid: #6d6d6d12;
+
+.formContainer {
+	font-family: "Roboto";
+
+	background-image: url("./img/bgm.png");
+	background-blend-mode: color;
+	background-color: #00000024;
+
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.formWrapper {
+		background-color: $text-light;
+		padding: 20px 80px;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		align-items: center;
+
+		.logo {
+			color: $coral-red;
+			font-size: 54px;
+			font-family: "Abril Fatface", cursive;
+		}
+
+		.title {
+			color: $coral-red;
+			font-size: 28px;
+			font-weight: bold;
+			padding: 10px;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+			color: $text-dark;
+			align-items: center;
+
+			input {
+				padding: 15px;
+				border: none;
+				width: 280px;
+				border-radius: 100px;
+				border-bottom: 5px solid $coral-red;
+				border-right: 2px solid $coral-red;
+				outline: none;
+
+				&::placeholder {
+					color: gray;
+				}
+			}
+
+			button {
+				background-color: $coral-red;
+				color: white;
+				padding: 15px;
+				font-weight: bold;
+				font-size: 14px;
+				border: none;
+				border-radius: 100px;
+
+				cursor: pointer;
+			}
+
+			label {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				color: $text-dark;
+				font-size: 14px;
+				cursor: pointer;
+
+				.image-not-selected {
+					background-color: $coral-red;
+				}
+				.image-selected {
+					background-color: $hover-col;
+				}
+
+				img {
+					width: 32px;
+					padding: 5px;
+					border-radius: 40px;
+				}
+			}
+		}
+
+		p {
+			color: gray;
+			font-size: 12px;
+			margin-top: 10px;
+		}
+	}
+}
+
+.home {
+	font-family: "Roboto";
+
+	background-image: url("./img/bgm.png");
+	background-blend-mode: color;
+	background-color: #00000024;
+
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.container {
+		border-radius: 10px;
+		width: 95%;
+		height: 90%;
+		display: flex;
+		overflow: hidden;
+
+		.sidebar {
+			flex: 2;
+
+			background-color: $text-light;
+			max-width: 40vw;
+
+			.navbar {
+				display: flex;
+				align-items: center;
+				background-color: $coral-red;
+				padding: 10px;
+				justify-content: space-between;
+				justify-self: center;
+				color: $text-light;
+				height: 40px;
+				border-right: 2px solid rgba(0, 0, 0, 0.2);
+
+				@include laptop {
+					justify-content: space-evenly;
+				}
+
+				@include tablet {
+					padding-right: 40px;
+					padding-left: 0px;
+				}
+
+				.logo {
+					font-size: 28px;
+					font-family: "Abril Fatface", cursive;
+
+					@include tablet {
+						display: none;
+					}
+				}
+
+				.user {
+					display: flex;
+					gap: 15px;
+
+					@include laptop {
+						gap: 12px;
+						padding-left: 0%;
+					}
+
+					align-items: center;
+					font-size: 18px;
+					max-width: 50%;
+					padding: 10px;
+
+					img {
+						background-color: transparent;
+						height: 45px;
+						width: 45px;
+						border-radius: 50%;
+						object-fit: cover;
+
+						@include mobile {
+							display: none;
+						}
+					}
+
+					button {
+						background-color: rgba(255, 255, 255, 0.3);
+						border-radius: 30px;
+						color: aliceblue;
+						border: none;
+						font-size: 14px;
+						cursor: pointer;
+						padding: 10px;
+					}
+				}
+			}
+
+			.search {
+				border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+
+				.searchForm {
+					padding: 10px;
+
+					input {
+						background-color: transparent;
+						border: none;
+						color: $text-dark;
+						outline: none;
+						font-size: 14px;
+
+						&::placeholder {
+							color: $text-dark;
+							font-weight: 100;
+						}
+					}
+				}
+			}
+
+			.userChat {
+				padding: 10x;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				color: $text-dark;
+				cursor: pointer;
+
+				&:hover {
+					background-color: $hover-col;
+					background-blend-mode: hard-light;
+				}
+
+				overflow-y: scroll;
+
+				&::-webkit-scrollbar {
+					width: 3px;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					border-radius: 5px;
+					background-color: #cc5c5c6d;
+				}
+
+				img {
+					padding: 10px;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					object-fit: cover;
+				}
+
+				.userChatInfo {
+					width: calc(100% - 100px);
+
+					span {
+						font-size: 18px;
+						font-weight: 500;
+					}
+
+					.userChatMsgInfo {
+						font-size: 14px;
+						color: $text-dark;
+						display: flex;
+						gap: 10px;
+
+						.date {
+							text-align: right;
+							flex-grow: 1;
+						}
+
+						.msg {
+							max-width: calc(100% - 100px);
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+					}
+				}
+			}
+		}
+
+		.chat {
+			flex: 5;
+			background-color: $text-light;
+
+			.chatInfo {
+				height: 40px;
+				background-color: $coral-red;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 10px;
+				color: $text-light;
+			}
+
+			.chatIcons {
+				display: flex;
+				gap: 10px;
+
+				img {
+					height: 24px;
+					cursor: pointer;
+				}
+			}
+
+			.messages {
+				background-color: $bg-mid;
+				padding: 10px;
+				height: calc(100% - 130px);
+				overflow-y: scroll;
+
+				&::-webkit-scrollbar {
+					width: 4px;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					border-radius: 5px;
+					background-color: #cc5c5c6d;
+				}
+
+				.message {
+					display: flex;
+					gap: 20px;
+
+					.messageInfo {
+						display: flex;
+						flex-direction: column;
+						color: $text-dark;
+						font-weight: 100;
+						font-size: 12px;
+						color: #6d6d6db6;
+						padding-top: 10px;
+
+						img {
+							width: 40px;
+							height: 40px;
+							border-radius: 50%;
+							object-fit: cover;
+						}
+					}
+
+					.messageContent {
+						max-width: 80%;
+						display: flex;
+						flex-direction: column;
+						gap: 10px;
+						padding: 10px 0px;
+
+						p {
+							background-color: white;
+							padding: 10px 20px;
+							border-radius: 0px 10px 10px 10px;
+							max-width: max-content;
+							max-width: 30vw;
+							word-wrap: break-word;
+						}
+
+						img {
+							width: 50%;
+							max-width: 500px;
+							border-radius: 10px;
+						}
+					}
+
+					&.owner {
+						flex-direction: row-reverse;
+						.messageContent {
+							align-items: flex-end;
+							p {
+								background-color: blueviolet;
+								color: white;
+								padding: 10px 20px;
+								border-radius: 10px 0px 10px 10px;
+							}
+						}
+					}
+				}
+			}
+
+			.input {
+				height: 30px;
+				background-color: rgba(0, 0, 0, 0.01);
+				padding: 10px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				input {
+					width: 100%;
+					border: none;
+					outline: none;
+					font-style: 18px;
+					color: black;
+					background-color: white;
+					height: 40px;
+					border-radius: 90px;
+					padding-left: 20px;
+
+					&::placeholder {
+						color: rgba(128, 128, 128, 0.845);
+					}
+				}
+			}
+
+			.send {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+
+				padding-left: 5px;
+
+				.image-not-selected {
+					background-color: $coral-red;
+				}
+				.image-selected {
+					background-color: $hover-col;
+				}
+
+				img {
+					height: 24px;
+					cursor: pointer;
+					padding: 5px;
+					border-radius: 50px;
+				}
+
+				button {
+					border: none;
+					padding: 10px 15px;
+					border-radius: 50px;
+					font-size: 13px;
+					color: $text-light;
+					background-color: $coral-red;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
