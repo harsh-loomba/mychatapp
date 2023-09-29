@@ -5,6 +5,7 @@ import { auth, storage, db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
+import Resizer from "react-image-file-resizer";
 
 const Register = () => {
 	const [err, setErr] = useState(false);
@@ -12,13 +13,32 @@ const Register = () => {
 
 	const [isImageSelected, setIsImageSelected] = useState("image-not-selected"); // State to track if an image is selected
 
+	const resizeFile = (file) =>
+		new Promise((resolve) => {
+			Resizer.imageFileResizer(
+				file,
+				300,
+				300,
+				"JPG",
+				90,
+				0,
+				(uri) => {
+					resolve(uri);
+				},
+				"file",
+				50,
+				50
+			);
+		});
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const displayName = e.target[0].value;
 		const email = e.target[1].value;
 		const password = e.target[2].value;
-		const file = e.target[3].files[0];
+
+		const file = await resizeFile(e.target[3].files[0]);
 
 		try {
 			const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -52,6 +72,7 @@ const Register = () => {
 
 					(error) => {
 						setErr(true);
+						console.log(error);
 					}
 				);
 			});
@@ -80,13 +101,14 @@ const Register = () => {
 				<span className="logo">My Chat</span>
 				<span className="title">Register</span>
 				<form onSubmit={handleSubmit}>
-					<input type="text" placeholder="Display Name" required />
+					<input type="text" placeholder="Username" required />
 					<input type="email" placeholder="Email" required />
 					<input type="password" placeholder="Password" required />
 					<input
 						style={{ display: "none" }}
 						type="file"
 						id="file"
+						accept="image/*"
 						onChange={handleImageSelect}
 						onClick={removeImageSelect}
 						required

@@ -12,6 +12,7 @@ import {
 import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import Resizer from "react-image-file-resizer";
 
 const Input = () => {
 	const [text, setText] = useState("");
@@ -22,13 +23,63 @@ const Input = () => {
 	const { currentUser } = useContext(AuthContext);
 	const { data } = useContext(ChatContext);
 
+	const resizeFileCustom = (file, maxl, quality, type) =>
+		new Promise((resolve) => {
+			Resizer.imageFileResizer(
+				file,
+				maxl,
+				maxl,
+				type,
+				quality,
+				0,
+				(uri) => {
+					resolve(uri);
+				},
+				"file"
+			);
+		});
+
+	const resizeFile = async (file) => {
+		var quality = 100;
+		var maxl = 1920;
+		var imgg = file;
+		var type = file.type;
+
+		console.log(type);
+
+		if (type === "image/png") {
+			type = "PNG";
+		} else if (type === "image/webp") {
+			type = "webp";
+		} else {
+			type = "JPEG";
+		}
+
+		if (type === "JPEG") {
+			while (file.size >= 1572864 && quality >= 50) {
+				imgg = await resizeFileCustom(imgg, maxl, quality, type);
+				quality -= 5;
+			}
+			quality = 50;
+		}
+
+		while (file.size >= 1572864 && maxl >= 720) {
+			imgg = await resizeFileCustom(imgg, maxl, quality, type);
+			maxl -= 84;
+		}
+
+		return imgg;
+	};
+
 	const handleSend = async () => {
 		setDispText("");
 
 		if (img) {
 			const storageRef = ref(storage, uuid());
 
-			await uploadBytesResumable(storageRef, img).then(() => {
+			const file = await resizeFile(img);
+
+			await uploadBytesResumable(storageRef, file).then(() => {
 				getDownloadURL(storageRef).then(
 					async (downloadURL) => {
 						await updateDoc(doc(db, "chats", data.chatId), {
@@ -43,7 +94,7 @@ const Input = () => {
 					},
 
 					(error) => {
-						// setErr(true);
+						console.log(error);
 					}
 				);
 			});
@@ -117,6 +168,7 @@ const Input = () => {
 					type="file"
 					style={{ display: "none" }}
 					id="file"
+					accept="image/*"
 					onChange={handleImageSelect}
 					onClick={removeImageSelect}
 				/>
