@@ -2,6 +2,8 @@
 
 Real-time React-based Web Chat App for seamless communication and collaboration
 
+#### [Live Link](https://chat-ba572.web.app/)
+
 ## 🚀 About Me
 
 #### Harsh Loomba
